@@ -5,42 +5,19 @@ service service1 @(path : '/srv1') {
 
     @Capabilities.SortRestrictions.NonSortableProperties : [createdAt,createdBy,modifiedAt,modifiedBy]
     entity RootEntities as select from persistence.RootEntities actions {
-        //Search-Terms: #BoundAction, #SideEffect
-        @(
-            //Update the UI after action
-            Common.SideEffects              : {
-                TargetProperties : ['in/criticality_code','in/fieldWithCriticality']
-            }
-        )
+        @( Common.SideEffects : { TargetProperties : ['in/criticality_code','in/fieldWithCriticality'] } )
         action changeCriticality (
-            //Value Helper for the Input Parameter
-            //Search-Term: #ValueHelpParameter
-            @(
-                title                       : '{i18n>newCriticality}',
+            @(  title                       : '{i18n>newCriticality}',
                 UI.ParameterDefaultValue    : in.criticality_code,
-                Common : {
-                    ValueListWithFixedValues : true,
-                    ValueList : {
-                        Label          : '{i18n>Criticality}',
-                        CollectionPath : 'Criticality',
-                        Parameters     : [
-                            {
-                                $Type             : 'Common.ValueListParameterInOut',
-                                ValueListProperty : 'code',
-                                LocalDataProperty : newCriticality
-                            },
-                            {
-                                $Type             : 'Common.ValueListParameterDisplayOnly',
-                                ValueListProperty : 'name'
-                            },
-                        ]
-                    }
-                }
+                Common : {  ValueListWithFixedValues : true,
+                            ValueList : {   Label          : '{i18n>Criticality}',
+                                            CollectionPath : 'Criticality',
+                                            Parameters     : [{ $Type : 'Common.ValueListParameterInOut', ValueListProperty : 'code', LocalDataProperty : newCriticality },
+                                                              { $Type : 'Common.ValueListParameterDisplayOnly', ValueListProperty : 'name' }, ] } }
             )
             newCriticality : Integer
         );
 
-        //Search-Term: #BoundAction
         action changeProgress (
             @(
                 title                       : '{i18n>newProgress}', 
@@ -49,17 +26,12 @@ service service1 @(path : '/srv1') {
             newProgress : Integer
         );
 
-        @(
-            //Update the UI after action
-            Common.SideEffects              : {
-                TargetEntities : [in]
-            }
-        )
+        @( Common.SideEffects : { TargetEntities : [in] } )
         action resetEntities(
             in: many $self
         );
     };
-    //Search-Terms: #UnboundAction
+
     @Core.OperationAvailable: {$edmJson: {$Path: '/Singleton/enabled'}}
     action unboundAction(@(title : '{i18n>inputValue}')input : String);
 
