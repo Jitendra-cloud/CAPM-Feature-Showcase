@@ -118,10 +118,45 @@
                 }
               },
               "initialLoad": true,
+              "views": {
+                "paths": [
+                  {
+                    "key": "tab1",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#variant1"
+                  },
+                  {
+                    "key": "tab2",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#variant2"
+                  },
+                  {
+                    "key": "tab3",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelectionPresentationVariant"
+                  },
+                  {
+                    "key": "tab4",
+                    "entitySet": "RootEntityVariants",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#variant3"
+                  }
+                ],
+                "showCounts": false
+              },
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "ResponsiveTable",
+                    "selectionMode": "Multi",
+                    "quickVariantSelection": {
+                      "paths": [
+                        {
+                          "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#variant1"
+                        },
+                        {
+                          "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#variant2"
+                        }
+                      ],
+                      "hideTableTitle": false,
+                      "showCounts": true
+                    }
                   }
                 }
               }
