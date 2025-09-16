@@ -4,25 +4,21 @@ using {sap.common as common} from '../db/common';
 service service1 @(path : '/srv1') {
 
     @Capabilities.SortRestrictions.NonSortableProperties : [createdAt,createdBy,modifiedAt,modifiedBy]
-    entity RootEntities as select from persistence.RootEntities actions {
-        @( Common.SideEffects : { TargetProperties : ['in/criticality_code','in/fieldWithCriticality'] } )
-        action changeCriticality (
-            @(  title                       : '{i18n>newCriticality}',
-                UI.ParameterDefaultValue    : in.criticality_code,
-                Common : {  ValueListWithFixedValues : true,
-                            ValueList : {   Label          : '{i18n>Criticality}',
-                                            CollectionPath : 'Criticality',
-                                            Parameters     : [{ $Type : 'Common.ValueListParameterInOut', ValueListProperty : 'code', LocalDataProperty : newCriticality },
-                                                              { $Type : 'Common.ValueListParameterDisplayOnly', ValueListProperty : 'name' }, ] } }
-            )
-            newCriticality : Integer
-        );
+    entity RootEntities as select from persistence.RootEntities 
+        actions {   @( Common.SideEffects : { TargetProperties : ['in/criticality_code','in/fieldWithCriticality'] } )
+                    action changeCriticality (  @(  title                       :   '{i18n>newCriticality}',
+                                                    UI.ParameterDefaultValue    :   in.criticality_code,
+                                                    Common                      :   {   ValueListWithFixedValues    : true,
+                                                                                        ValueList : {   Label           :   '{i18n>Criticality}',
+                                                                                                        CollectionPath  :   'Criticality',
+                                                                                                        Parameters      :   [   { $Type : 'Common.ValueListParameterInOut', ValueListProperty : 'code', LocalDataProperty : newCriticality },
+                                                                                                                                { $Type : 'Common.ValueListParameterDisplayOnly', ValueListProperty : 'name' }, 
+                                                                                                                            ] } } 
+                                                )
+                                    newCriticality : Integer );
 
-        action changeProgress (
-            @(
-                title                       : '{i18n>newProgress}', 
-                UI.ParameterDefaultValue    : 50
-            )
+        action changeProgress ( @( title : '{i18n>newProgress}', 
+                                   UI.ParameterDefaultValue : 50 )
             newProgress : Integer
         );
 
